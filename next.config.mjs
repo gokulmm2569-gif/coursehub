@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    return [{ source: '/api/v1/:path*', destination: 'http://localhost:8001/api/v1/:path*' }]
+    const apiUrl = (process.env.COURSEHUB_API_URL ?? 'http://localhost:8001').replace(/\/$/, '')
+    return [{ source: '/api/v1/:path*', destination: `${apiUrl}/api/v1/:path*` }]
   },
   typescript: {
     ignoreBuildErrors: true,
