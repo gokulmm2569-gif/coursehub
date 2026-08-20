@@ -15,4 +15,16 @@ The backend is intentionally split into two local processes:
 6. Start Django with `python backend/manage.py runserver 8000`.
 7. Start FastAPI with `uvicorn backend.api.main:app --reload --port 8001`.
 
+## Render deployment
+
+The repository includes `render.yaml` for deploying FastAPI with a managed PostgreSQL database. In Render, create a Blueprint from the repository and set `CORS_ALLOWED_ORIGINS` to the deployed Vercel URL, for example `https://coursehub-delta.vercel.app`.
+
+After the first deploy, create an administrator from the Render service shell:
+
+```bash
+python manage.py createsuperuser
+```
+
+Use the generated Render service URL as Vercel's `COURSEHUB_API_URL` environment variable, then redeploy the frontend.
+
 Epic 2 models: `User`, `Category`, `Instructor`, `Course`, and `Enrollment`. Django is the only owner of schema changes; FastAPI must not introduce a second ORM or migration system.
